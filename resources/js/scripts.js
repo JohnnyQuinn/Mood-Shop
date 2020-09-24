@@ -22,6 +22,16 @@ for (let i=0; i<data.length; ++i) {
     let price = document.createElement('P')
     price.innerText = data[i].price
 
+    //create button 
+    let button = document.createElement('button')
+    button.id = data[i].name
+
+    // creates a custom attribute called data-price. That will hold price for each element in the button
+    button.dataset.price = data[i].price
+    button.innerHTML = "Add to Cart"
+    newDiv.appendChild(button)
+
+
     // Add the image to the div
     newDiv.appendChild(img)
     console.log(img)
