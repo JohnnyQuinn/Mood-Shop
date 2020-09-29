@@ -79,14 +79,36 @@ const cart = []
 
     function getQty() {
         let qty = 0
-        console.log(`You have ${cart.length} items in your cart`)
         for (let i = 0; i < cart.length; i += 1) {
             qty += cart[i].qty
         }
         return qty
     }
 
+    function removeItem(name, qty = 0) {
+        for (let i = 0; i < cart.length; i += 1){
+            if(cart[i].name === name){
+                if(qty > 0){
+                    console.log(`${qty} ${cart[i].name} removed`)
+                    cart[i].qty -= qty
+                }
+                if(cart[i].qty < 1 || qty === 0){
+                    console.log(`${cart[i].name} removed`)
+                    cart.splice(i, 1)
+                }
+                return
+            }
+        }
+    }
+
     addItem('apple', 0.99)
     addItem('apple', 0.99)
+    addItem('banana', 3.99)
+    addItem('banana', 3.99)
+    addItem('orange', 0.99)
+
+    showItems()
+
+    removeItem('apple', 1)
 
     showItems()
