@@ -41,3 +41,52 @@ for (let i=0; i<data.length; ++i) {
     newDiv.appendChild(button)
     itemsContainer.appendChild(newDiv)
 }
+
+const cart = []
+
+    function addItem(name, price) {
+            for(let i = 0; i < cart.length; i += 1) {
+                if(cart[i].name == name) {
+                    cart[i].qty += 1
+                    return
+                }
+            }
+
+        const item = { name: name, price : price, qty: 1 }
+        cart.push(item)
+    }
+
+    function showItems() {
+        const qty = getQty()
+
+        console.log(`You have ${qty} items in your cart`)
+
+        for (let i = 0; i < cart.length; i +=1) {
+            console.log(`- ${cart[i].name} $${cart[i].price} x ${cart[i].qty}`)
+        }
+
+        console.log(`Total in cart: $${getTotal()}`)
+    }
+
+    function getTotal() {
+        let total = 0
+        for (let i = 0; i < cart.length; i += 1) {
+            total += cart[i].price * cart[i].qty
+        }
+
+        return total.toFixed(2)
+    }
+
+    function getQty() {
+        let qty = 0
+        console.log(`You have ${cart.length} items in your cart`)
+        for (let i = 0; i < cart.length; i += 1) {
+            qty += cart[i].qty
+        }
+        return qty
+    }
+
+    addItem('apple', 0.99)
+    addItem('apple', 0.99)
+
+    showItems()
