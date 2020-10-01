@@ -71,8 +71,14 @@ function showItems() {
     //adds all items to a itemStr to be displayed in itemList
     for (let i = 0; i < cart.length; i +=1) {
         let itemTotal = cart[i].price * cart[i].qty
-        console.log(`- ${cart[i].name} $${cart[i].price} x ${cart[i].qty}`)
-        itemStr += `<li>- ${cart[i].name} $${cart[i].price} x ${cart[i].qty}: $${itemTotal}</li>`
+        const {name, price, qty} = cart[i]
+        itemStr += `<li>- 
+            ${cart[i].name} $${cart[i].price} x ${cart[i].qty}: $${itemTotal} 
+            <button class="add-one" data-name="${name}"> + </button>
+            <button class="remove-one" data-name="${name}"> - </button>
+            <button class="remove" data-name="${name}">Remove</button>
+            <input class="update" type="number" data-name="${name}">
+        </li>`
     }
     cartTotal.innerHTML = `<p>Total in cart: $${getTotal()}</p>`          //adds DOM element for total cart message
     itemList.innerHTML = itemStr
@@ -108,16 +114,48 @@ function removeItem(name, qty = 0) {
                 console.log(`${cart[i].name} removed`)
                 cart.splice(i, 1)
             }
+            showItems()
             return
         }
     }
 }
 
+//gets all buttons and their ids
 const all_items_button = Array.from(document.querySelectorAll('button'))
+//eventListener to button onclick to call addItem() on clicked button
 all_items_button.forEach(elt => elt.addEventListener('click', () => {
     addItem(elt.getAttribute('id'), elt.getAttribute('data-price'))
     showItems()
 }))
+
+itemList.onclick = function(e) {
+    if(e.target && e.target.classList.contains('remove')) {
+        const name = e.target.dataset.name 
+        removeItem(name)
+    }
+    else if(e.target && e.target.classList.contains('add-one')) {
+        const name = e.target.dataset.name
+        addItem(name)
+    }
+}
+
+itemList.onchange = function (e) {
+    if(e.target && e.target.classList.contains('update')) {
+        const name = e.target.dataset.name
+        const qty = parseInt(e.target.value)
+        updateCart(name,qty)
+    }
+}
+
+function updateCart(name, qty) {
+    for(let i =0; i <cart.length; i += 1) {
+        if(cart[i].name === name) {
+            cart[i].qty = qty
+            showItems()
+            return
+        }
+    }
+}
 
 addItem('apple', 0.99)
 addItem('apple', 0.99)
