@@ -1,5 +1,8 @@
 import data from './data.js'
 const itemsContainer = document.getElementById('items')
+const itemList = document.getElementById('item-list')
+const cartQty = document.getElementById('cart-qty')
+const cartTotal = document.getElementById('cart-total')
 
 // the length of our data determines how many times this loop goes around
 for (let i=0; i<data.length; ++i) {
@@ -33,7 +36,6 @@ for (let i=0; i<data.length; ++i) {
 
     // Add the image to the div
     newDiv.appendChild(img)
-    console.log(img)
     //add description to div
     newDiv.appendChild(desc)
     //add price to div
@@ -61,9 +63,18 @@ const cart = []
 
         console.log(`You have ${qty} items in your cart`)
 
+        let itemStr = ''
+
+        cartQty.innerHTML =  `<p>You have ${qty} items in your cart</p>`     //adds DOM element for qty cart message
+
+        //adds all items to a itemStr to be displayed in itemList
         for (let i = 0; i < cart.length; i +=1) {
+            let itemTotal = cart[i].price * cart[i].qty
             console.log(`- ${cart[i].name} $${cart[i].price} x ${cart[i].qty}`)
+            itemStr += `<li>- ${cart[i].name} $${cart[i].price} x ${cart[i].qty}: $${itemTotal}</li>`
         }
+        cartTotal.innerHTML = `<p>Total in cart: $${getTotal()}</p>`          //adds DOM element for total cart message
+        itemList.innerHTML = itemStr
 
         console.log(`Total in cart: $${getTotal()}`)
     }
